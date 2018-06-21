@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Conco Freeboard</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/board.css" />
+
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <style>
+        #button_align {
+            width: 400px;
+            margin-left: 63%;
+            text-align: right;
+        }
+        .comment {
+            margin: 20px 0px 20px 20px;
+            background-color: whitesmoke;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+
+        {% load static %}
+        <a href="{% url 'board:index' %}">
+            <img src="{% static "img/logo1.png" %}" width="400px" height="100px" >
+        </a>
+
+
+        <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #e3f2fd;">
+
+            {% if user.is_active %}
+                <a class="navbar-brand" href="{% url 'login' %}"><i class="fas fa-user"></i> {{ user.username }}님!</a>
+            {% endif %}
+            CONCO KOREA 게시판에 오신 것을 환영합니다.
+
+            <ul class="navbar nav mr-auto"></ul>
+
+            <ul class="nav nav-pills">
+                {% if user.is_active %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'logout' %}"> Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'login' %}"> Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+
+
+    <div class="container">
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'board/base.html' %}
+
+    {% block content %}
+    <br>
+        <div class="" style="border: 2px outset #c4dce8;">
+
+            <table class="table table-striped table-hover">
+                <colgroup>
+                    <col span="1" width="12%">
+                    <col span="1" width="50%">
+                    <col span="1" width="18%">
+                    <col span="1" width="20%">
+                </colgroup>
+
+                <thead>
+                    <tr>
+                        <th>글번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>등록일</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for post in post_list %}
+                    <tr>
+                        <td>{{ post.pk }}</td>
+                        <td><a href="{{ post.pk }}">{{ post.title }} <small style="color: darkorange">[{{ post.comments.count }}]</small></a></td>
+                        <td>{{ post.author }}</td>
+                        <td>{{ post.regdate }}</td>
+                    </tr>
+                 {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <br>
+
+        <!-- 페이징 -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+            {% endif %}
+
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ i }}<span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a></li>
+            {% endif %}
+        </ul>
+        </nav>
+        {% endif %}
+
+        <!-- 글쓰기 버튼 -->
+        <div class="" style="width: 100px; float: right;">
+        <a href="{% url 'board:new_post' %}" class="btn btn-dark btn-sm" role="button"><i class="fas fa-pencil-alt"></i> 글쓰기</a>
+        </div>
+
+
+    {% endblock %}

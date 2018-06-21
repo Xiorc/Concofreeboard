@@ -1,0 +1,57 @@
+{% extends 'board/base.html' %}
+
+{% block content %}
+    <br>
+
+    <div>
+
+
+        <table class="table">
+          <thead class="thead-light" style="border-left: 1px solid lightgray; border-right: 1px solid lightgray;">
+            <tr>
+                <th scope="col"><h4>{{ post_detail.title }}</h4></th>
+            </tr>
+          </thead>
+          <tbody style="border-left: 4px solid gold;
+                        border-right: 1px solid lightgray;
+                        border-bottom: 1px solid lightgray;">
+            <tr>
+              <td>
+                  <p align="right">작성자: {{ post_detail.author }}</p>
+                  <p align="right" style="font-size: 13px;">작성일: {{ post_detail.regdate }}</p>
+                  <p>{{ post_detail.text|linebreaksbr }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+    <!-- 글 수정, 삭제 버튼 -->
+        <div id="button_align">
+            {% if user.is_authenticated %}
+                <a class="btn btn-outline-primary" href="{% url 'board:post_edit' pk=post_detail.pk %}"><i class="fas fa-edit"></i> 수정하기</a>
+                <a class="btn btn-outline-danger" href="{% url 'board:post_remove' pk=post_detail.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><i class="fas fa-eraser"></i> 글삭제</a>
+            {% endif %}
+        <!-- 목록 버튼 -->
+                <a class="btn btn-outline-secondary" href="{% url 'board:index' %}"><i class="fas fa-list-ul"></i> 목록으로</a>
+        </div>
+    </div>
+
+    <hr>
+    <a class="btn btn-primary" href="{% url 'board:add_comment_to_post' pk=post_detail.pk %}">Add comment</a>
+    {% for comment in post_detail.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>No comments here yet :(</p>
+    {% endfor %}
+
+<script>
+    $("#user_name").text()
+</script>
+
+
+{% endblock %}

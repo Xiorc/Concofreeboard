@@ -1,0 +1,44 @@
+{% extends 'board/base.html' %}
+{% block content %}
+
+<!-- 로그인 되어있는 경우 -->
+{% if user.is_active %}
+<p><h2> Welcome, {{ user.username }}</h2></p>
+<a href="{% url 'logout' %}">로그아웃</a>
+
+<!-- 로그인 되어있지 않은 경우 -->
+{% else %}
+{% if form.errors %}
+<!-- 에러발생시 -->
+<div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 400px; margin-right: auto; margin-left: auto">
+    <strong>이런!</strong> ID나 비밀번호가 일치하지 않습니다.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<!-- 로그인 폼 -->
+<form method="POST" action="{% url 'login' %}" class="sign-in-form">
+    {% csrf_token %}
+     <h2 class="sub-title"> 로그인 </h2>
+
+  <div class="form-group">
+    <label for="{{ form.username.id_for_label }}">아이디</label>
+    <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="15" name="{{ form.username.html_name }}" type="text" />
+  </div>
+  <div class="form-group">
+    <label for="{{ form.password.id_for_label }}">패스워드</label>
+    <input class="form-control" id="{{ form.password.id_for_label }}" maxlength="120" name="{{ form.password.html_name }}" type="password" />
+  </div>
+  <input type="submit" class="save btn btn-success" value="로그인">
+  <a href="{% url 'board:index' %}">
+    <button type="button" class="btn btn-danger">취소</button>
+  </a>
+  <input type="hidden" name="next" value="">
+
+</form>
+<!-- 회원가입 -->
+<br>
+    <p>아이디가 없으신가요? <a href="{% url 'signup' %}">회원가입</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'board/base.html' %}
+{% block content %}
+
+<h2> 어 딜도 망가!</h2>
+<p><a href="{% url 'login' %}">다시 로그인하기</a></p>
+<p><a href="{% url 'board:index' %}">홈으로</a></p>
+
+{% endblock %}
